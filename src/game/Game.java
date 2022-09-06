@@ -23,7 +23,7 @@ public class Game extends Canvas implements Runnable{
 	private ObjectHandler objectHandler;
 	
 	public Game() {
-		new Window(gameWidth, gameHeight, "Super Mario Bros.", this);
+		new Window(gameWidth, gameHeight, "Mario Simulation", this);
 		objectHandler = new ObjectHandler();
 		this.addKeyListener(new KeyInput(objectHandler));
 		
