@@ -12,10 +12,11 @@ import javax.swing.ImageIcon;
 import objects.GameObject;
 import objects.ObjectID;
 
-public class Background extends GameObject {
+public class Coin extends GameObject {
 
+	int curFrameInt;
 	
-	public Background(int x, int y, ObjectID id) {
+	public Coin(int x, int y, ObjectID id) {
 		super(x, y, id);
 		// TODO Auto-generated constructor stub
 		//velX = 1;
@@ -23,15 +24,18 @@ public class Background extends GameObject {
 
 	public void tick() {
 		// TODO Auto-generated method stub
+		curFrameInt = (int) (System.currentTimeMillis() / 200) % 4;
 	}
 	
 	public void render(Graphics g) {
 		// TODO Auto-generated method stub
 		Graphics2D g2D = (Graphics2D) g;
 		
-		Image image = new ImageIcon("src/resources/bg.png").getImage();
-		width = image.getWidth(null); height = image.getHeight(null);
-		g2D.drawImage(image, 0, 0, width * 4, height * 4, null);
+		if (visible) {
+			Image image = new ImageIcon("src/resources/coin/coin_" + (curFrameInt  + 4) + ".png").getImage();
+			width = image.getWidth(null); height = image.getHeight(null);
+			g2D.drawImage(image, (x % 4 == 0) ? x : x - (x % 4), (y % 4 == 0) ? y : y - (y % 4), width * 4, height * 4, null);
+		}
 	}
 
 	public void keyPressed(int pressedKey) {

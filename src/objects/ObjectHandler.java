@@ -12,8 +12,10 @@ public class ObjectHandler {
 	public void tick() {
 		for (int curObj = 0; curObj < objectList.size(); curObj++) {
 			GameObject tempObj = objectList.get(curObj);
+			System.out.println(tempObj.id + " -> [x: " + tempObj.x + ", y: " + tempObj.y + "]");
 			tempObj.tick();
 		}
+		System.out.println("-----------------------");
 	}
 	
 	public void render(Graphics g) {

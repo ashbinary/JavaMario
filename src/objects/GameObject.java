@@ -1,6 +1,8 @@
 package objects;
 
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
@@ -9,7 +11,8 @@ public abstract class GameObject {
 	protected int x, y;
 	protected ObjectID id;
 	protected int velX, velY;
-	protected ImageIcon image;
+	protected int width, height;
+	public boolean visible = true;
 	
 	public GameObject(int x, int y, ObjectID id) {
 		this.x = x;
@@ -61,5 +64,12 @@ public abstract class GameObject {
 	public int getVelY() {
 		return velY;
 	}
+	
+	public Rectangle getBounds() {
+	    return new Rectangle(x, y, width * 4, height * 4);
+	}
+
+	public abstract Rectangle getHitBounds();
+	public abstract Rectangle getDeathBounds();
 	
 }
