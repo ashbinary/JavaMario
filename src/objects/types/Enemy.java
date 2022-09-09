@@ -21,6 +21,9 @@ public class Enemy extends GameObject {
 		super(x, y, id);
 		// TODO Auto-generated constructor stub
 		//velX = 1;
+		
+		Image image = new ImageIcon("src/resources/enemy/goomba/goomba" + ((curFrameInt + 1 == 1) ? "_flip" : "") + ".png").getImage();
+		width = image.getWidth(null); height = image.getHeight(null);
 	}
 
 	public void tick() {
@@ -37,12 +40,10 @@ public class Enemy extends GameObject {
 	public void render(Graphics g) {
 		// TODO Auto-generated method stub
 		Graphics2D g2D = (Graphics2D) g;
-		
-		if (visible) {
+
 			Image image = new ImageIcon("src/resources/enemy/goomba/goomba" + ((curFrameInt + 1 == 1) ? "_flip" : "") + ".png").getImage();
 			width = image.getWidth(null); height = image.getHeight(null);
 			g2D.drawImage(image, (x % 4 == 0) ? x : x - (x % 4), (y % 4 == 0) ? y : y - (y % 4), width * 4, height * 4, null);
-		}
 	}
 
 	public void keyPressed(int pressedKey) {
@@ -51,13 +52,5 @@ public class Enemy extends GameObject {
 	
 	public void keyReleased(int releasedKey) {
 		// TODO Auto-generated method stub
-	}
-	
-	public Rectangle getDeathBounds() {
-	    return new Rectangle(x - 5, y + 10, width * 4 + 10, height * 4 - 10);
-	}
-
-	public Rectangle getHitBounds() {
-	    return new Rectangle(x, y, width * 4, 10);
 	}
 }

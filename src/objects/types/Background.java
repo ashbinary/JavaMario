@@ -41,16 +41,4 @@ public class Background extends GameObject {
 	public void keyReleased(int releasedKey) {
 		// TODO Auto-generated method stub
 	}
-
-	@Override
-	public Rectangle getHitBounds() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Rectangle getDeathBounds() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

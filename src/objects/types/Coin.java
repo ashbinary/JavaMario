@@ -31,11 +31,9 @@ public class Coin extends GameObject {
 		// TODO Auto-generated method stub
 		Graphics2D g2D = (Graphics2D) g;
 		
-		if (visible) {
 			Image image = new ImageIcon("src/resources/coin/coin_" + (curFrameInt  + 4) + ".png").getImage();
 			width = image.getWidth(null); height = image.getHeight(null);
 			g2D.drawImage(image, (x % 4 == 0) ? x : x - (x % 4), (y % 4 == 0) ? y : y - (y % 4), width * 4, height * 4, null);
-		}
 	}
 
 	public void keyPressed(int pressedKey) {
@@ -44,17 +42,5 @@ public class Coin extends GameObject {
 	
 	public void keyReleased(int releasedKey) {
 		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public Rectangle getHitBounds() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Rectangle getDeathBounds() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

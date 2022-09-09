@@ -32,11 +32,20 @@ public class Game extends Canvas implements Runnable{
 		
 		objectHandler.addObj(new Background(0, 0, ObjectID.Background));
 		for (int i = 0; i <= 10; i++) {
-			objectHandler.addObj(new Coin(((int) (Math.random() * 160)) * 4, ((int) (Math.random() * 50)) * 4 + 200, ObjectID.Coin));
-			objectHandler.addObj(new Enemy(((int) (Math.random() * 160)) * 4 + 800, 415, ObjectID.Enemy));
+			//objectHandler.addObj(new Coin(((int) (Math.random() * 160)) * 4, ((int) (Math.random() * 50)) * 4 + 200, ObjectID.Coin));
+			//objectHandler.addObj(new Enemy(((int) (Math.random() * 160)) * 4 + 800, 415, ObjectID.Enemy));
 		}
 		
 		objectHandler.addObj(new Player(335, 415, ObjectID.Player));
+		
+		for (int curObj = 0; curObj < objectHandler.objectList.size(); curObj++) {
+			GameObject tempObj = objectHandler.objectList.get(curObj);
+			
+			if (tempObj.getID() == ObjectID.Enemy) {
+				tempObj.setHitbox("kill", new Rectangle(tempObj.getX(), tempObj.getY() + 15, tempObj.getWidth(), tempObj.getHeight() - 5));
+				tempObj.setHitbox("die", new Rectangle(tempObj.getX(), tempObj.getY(), tempObj.getWidth(), 5));
+			}
+		}
 	}
 	
 	public synchronized void start() {
@@ -50,7 +59,7 @@ public class Game extends Canvas implements Runnable{
 	}
 	
 	public void collide() {
-		Rectangle playerHitbox = null;
+		Rectangle playerHitbox = new Rectangle();
 		ArrayList<Rectangle> coinHitboxes = new ArrayList<Rectangle>();
 		ArrayList<Rectangle> enemyHitBoxes = new ArrayList<Rectangle>();
 		ArrayList<Rectangle> enemyDeadBoxes = new ArrayList<Rectangle>();
@@ -58,15 +67,20 @@ public class Game extends Canvas implements Runnable{
 		for (int curObj = 0; curObj < objectHandler.objectList.size(); curObj++) {
 			GameObject tempObj = objectHandler.objectList.get(curObj);
 			
+			if (tempObj.getID() == ObjectID.Enemy) {
+				tempObj.setHitbox("die", new Rectangle(tempObj.getX(), tempObj.getY() + 15, tempObj.getWidth(), tempObj.getHeight()));
+				tempObj.setHitbox("kill", new Rectangle(tempObj.getX(), tempObj.getY(), tempObj.getWidth(), 5));
+			}
+			
 			if (tempObj.getID() == ObjectID.Player) {
-				playerHitbox = tempObj.getBounds();
+				playerHitbox = tempObj.getHitbox(null);
 			}
 			if (tempObj.getID() == ObjectID.Coin) {
 				coinHitboxes.add(tempObj.getBounds());
 			}
 			if (tempObj.getID() == ObjectID.Enemy) {
-				enemyHitBoxes.add(tempObj.getHitBounds());
-				enemyDeadBoxes.add(tempObj.getDeathBounds());
+				enemyHitBoxes.add(tempObj.getHitbox("kill"));
+				enemyDeadBoxes.add(tempObj.getHitbox("die"));
 			}
 		}
 		
@@ -75,7 +89,7 @@ public class Game extends Canvas implements Runnable{
 				for (int curObj = 0; curObj < objectHandler.objectList.size(); curObj++) {
 					GameObject tempObj = objectHandler.objectList.get(curObj);
 				
-					if ((tempObj.getID() == ObjectID.Coin) && (tempObj.visible) && (tempObj.getBounds().intersects(coinHitboxes.get(coinHitbox)))) {
+					if ((tempObj.getID() == ObjectID.Coin) && (tempObj.getBounds().intersects(coinHitboxes.get(coinHitbox)))) {
 						objectHandler.removeObj(tempObj);
 					}
 				}
@@ -87,10 +101,11 @@ public class Game extends Canvas implements Runnable{
 				for (int curObj = 0; curObj < objectHandler.objectList.size(); curObj++) {
 					GameObject tempObj = objectHandler.objectList.get(curObj);
 				
-					if ((tempObj.getID() == ObjectID.Enemy) && (tempObj.visible) && (tempObj.getBounds().intersects(enemyHitBoxes.get(enemyHitbox)))) {
+					if (tempObj.getID() == ObjectID.Player) tempObj.setVelY(-20);
+					if ((tempObj.getID() == ObjectID.Enemy) && (tempObj.getBounds().intersects(enemyHitBoxes.get(enemyHitbox)))) {
 						objectHandler.removeObj(tempObj);
 					}
-					if ((tempObj.getID() == ObjectID.Player) && (tempObj.visible) && (tempObj.getBounds().intersects(enemyDeadBoxes.get(enemyHitbox)))) {
+					if ((tempObj.getID() == ObjectID.Player) && (tempObj.getBounds().intersects(enemyDeadBoxes.get(enemyHitbox)))) {
 						isDying = true;
 					}
 				}
